@@ -17,7 +17,7 @@ public class FoodItemController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<FoodItem> addFoodItem(FoodItem foodItem) {
+    public ResponseEntity<FoodItem> addFoodItem(@RequestBody FoodItem foodItem) {
         FoodItem saved = foodItemService.save(foodItem);
         return ResponseEntity.ok(saved);
     }
