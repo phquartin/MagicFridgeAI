@@ -1,6 +1,6 @@
 CREATE TABLE tb_food_item (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY;
-    Nome VARCHAR(255) NOT NULL;
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(255) NOT NULL,
     Categoria ENUM(
         'BEBIDA',
         'CARNE',
