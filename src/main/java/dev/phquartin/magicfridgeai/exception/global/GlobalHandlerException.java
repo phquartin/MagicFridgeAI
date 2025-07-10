@@ -1,6 +1,7 @@
 package dev.phquartin.magicfridgeai.exception.global;
 
 import dev.phquartin.magicfridgeai.exception.fooditem.FoodItemException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,19 @@ public class GlobalHandlerException {
                 .timestamp(LocalDateTime.now())
                 .build();
 
-        return new ResponseEntity<>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(erro, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e, HttpServletRequest request) {
+        ErrorResponse erro = ErrorResponse.builder()
+                .mensagem(e.getMessage())
+                .path(request.getRequestURI())
+                .statusCode(404)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
     }
 
 }

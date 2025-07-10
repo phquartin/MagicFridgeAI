@@ -12,6 +12,7 @@ import java.util.List;
 public class FoodItemController {
 
     private final FoodItemService foodItemService;
+
     public FoodItemController(FoodItemService foodItemService) {
         this.foodItemService = foodItemService;
     }
@@ -30,24 +31,15 @@ public class FoodItemController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<FoodItem> getFoodItemById(@PathVariable Long id) {
-        try {
-            FoodItem foodItem = foodItemService.findById(id);
-            return ResponseEntity.ok(foodItem);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+        FoodItem foodItem = foodItemService.findById(id);
+        return ResponseEntity.ok(foodItem);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFoodItem(@PathVariable Long id) {
-        try {
-            foodItemService.deleteById(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        foodItemService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
-
 
 
 }
