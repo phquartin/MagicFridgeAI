@@ -1,5 +1,6 @@
 package dev.phquartin.magicfridgeai.service;
 
+import dev.phquartin.magicfridgeai.model.FoodItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatGptService {
@@ -24,9 +26,20 @@ public class ChatGptService {
         this.webClient = webClient;
     }
 
-    public Mono<String> generateRecipe() {
-        String prompt = "Sugira uma receita simples com ingredientes comuns";
-        String instructions = "Você é um chefe de cozinha e você vai me sugerir algumas receitas com base nos ingredientes que eu vou te passar.";
+    public Mono<String> generateRecipe(List<FoodItem> foodItems) {
+        String prompt;
+
+        if (foodItems == null || foodItems.isEmpty()) {
+            prompt = "Estamos sem ingredientes para fazer receita! Voce deve avisar ao cliente que ele nao possui nada em estoque!";
+        }else {
+            String collect = foodItems.stream()
+                    .map(item -> String.format("%s (%s) -- Quantidade: %d, Validade: %s",
+                            item.getNome(), item.getCategoria().toString(), item.getQuantidade(), item.getValidade()))
+                    .collect(Collectors.joining("\n"));
+            prompt = "A lista de ingredientes para fazer receita é essa, caso não consiga fazer uma boa receita com isso avise o cliente, não esqueça de verificar a data de validade e a quantidade do produto \n Lista: \n" + collect;
+        }
+
+        String instructions = "Você é um chefe de cozinha e você vai sugerir uma receita para um cliente com base nos ingredientes que eu vou te passar, lembre-se de passar todas as instruções.";
 
         Map<String, Object> requestBody = Map.of(
                 "model", "gpt-4o-mini",
