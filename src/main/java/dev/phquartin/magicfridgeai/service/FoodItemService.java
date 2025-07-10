@@ -12,11 +12,10 @@ import java.util.List;
 @Service
 public class FoodItemService {
 
+    private final FoodItemValidation foodItemValidation = new FoodItemValidation();
     private final FoodItemRepository foodItemRepository;
-    private final FoodItemValidation foodItemValidation;
-    public FoodItemService(FoodItemRepository foodItemRepository, FoodItemValidation foodItemValidation) {
+    public FoodItemService(FoodItemRepository foodItemRepository) {
         this.foodItemRepository = foodItemRepository;
-        this.foodItemValidation = foodItemValidation;
     }
 
     public FoodItem save(FoodItem foodItem) {

@@ -1,6 +1,8 @@
 package dev.phquartin.magicfridgeai.exception.fooditem;
 
 import dev.phquartin.magicfridgeai.model.FoodItem;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 
