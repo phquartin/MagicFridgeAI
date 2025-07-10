@@ -21,7 +21,7 @@ public class FoodItemService {
     public FoodItem save(FoodItem foodItem) {
 
         // Validations
-        if (foodItem.getNome() == null) throw new FoodItemException("Nome nulo");
+        if (foodItem.getNome() == null || foodItem.getNome().isBlank()) throw new FoodItemException("Nome nulo ou em branco");
         if (foodItem.getCategoria() == null) throw new FoodItemException("Categoria nula");
         if (foodItem.getQuantidade() == null) throw new FoodItemException("Quantidade nula");
         if (foodItem.getValidade() == null) throw new FoodItemException("Validade nula");
